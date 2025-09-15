@@ -1,0 +1,30 @@
+from moviepy.editor import VideoFileClip, TextClip, CompositeVideoClip, AudioFileClip
+
+# 1️⃣ Carregar vídeo bruto
+video = VideoFileClip("video_bruto.mp4")  # substitua pelo nome do seu arquivo
+
+# 2️⃣ Cortes estratégicos
+# Aqui definimos os momentos-chave do vídeo
+clip1 = video.subclip(0, 2)   # Introdução
+clip2 = video.subclip(2, 7)   # Acúmulo de elixir
+clip3 = video.subclip(7, 12)  # Jogada final
+
+# 3️⃣ Adicionar textos em cada momento
+txt1 = TextClip("Começando a jogada!", fontsize=50, color='white', font='Arial-Bold')
+txt1 = txt1.set_position('center').set_duration(2).set_start(0)
+
+txt2 = TextClip("7x Elixir Estratégico!", fontsize=50, color='yellow', font='Arial-Bold')
+txt2 = txt2.set_position('center').set_duration(5).set_start(2)
+
+txt3 = TextClip("Vitória Insana!", fontsize=60, color='red', font='Arial-Bold')
+txt3 = txt3.set_position('center').set_duration(5).set_start(7)
+
+# 4️⃣ Combinar clipes e textos
+clip_final = CompositeVideoClip([clip1, clip2, clip3, txt1, txt2, txt3])
+
+# 5️⃣ Adicionar música de fundo
+audio = AudioFileClip("musica_fundo.mp3").subclip(0, clip_final.duration)
+clip_final = clip_final.set_audio(audio)
+
+# 6️⃣ Exportar vídeo final pronto para Shorts
+clip_final.write_videofile("short_otimizado.mp4", fps=30)
